@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <h1>List of Programs</h1>
+    </head>
+	<body>
+		{% if program_list %}
+			<ul>
+				{% for program in program_list %}
+				<li><a href="/cm/{{ program.program_id }}/">{{ program.name }}</a></li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<p>No programs are available.</p>
+		{% endif %}
+    </body>
+</html>

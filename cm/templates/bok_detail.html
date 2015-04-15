@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <h1>Detail of block of knowledge {{bok.name}}</h1>
+    </head>
+	<body>
+		Name: {{bok.name}} <br>
+		Description: {{bok.description}} <br>
+		Credit:{{bok.num_of_credit}} <br>
+		<h2>List of Subject</h2>
+			{% if subject_list %}
+				<table style="width:100%">
+					<tr>
+							<td>English name<td>
+							<td>Vietnamese name<td>
+							<td>Credit<td>
+							<td>Theory hour<td>
+							<td>Practice hour<td>
+							<td>Description<td>
+							<td>Resources<td>
+							<td>Regulation<td>
+					</tr>
+					{% for subject in subject_list %}
+						<tr>
+							<td>{{ subject.name_en }}<td>
+							<td>{{ subject.name_vi }}<td>
+							<td>{{ subject.num_of_credit }}<td>
+							<td>{{ subject.theory_hr }}<td>
+							<td>{{ subject.practice_hr }}<td>
+							<td>{{ subject.description }}<td>
+							<td>{{ subject.resources }}<td>
+							<td>{{ subject.regulation }}<td>
+						</tr>
+					{% endfor %}
+				</table> 
+			{% else %}
+				<p>No subjects are available.</p>
+			{% endif %}
+    </body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <h1>Detail of major {{major.name}}</h1>
+    </head>
+	<body>
+		Name:{{major.name}} <br>
+		Description: {{major.description}} <br>
+		<h2>List of Block of Knowledge</h2>
+			{% if bok_list %}
+				<ul>
+					{% for bok in bok_list %}
+						<li><a href="/cm/bok/{{bok.id}}">{{ bok.name }}</a></li>
+					{% endfor %}
+				</ul>
+			{% else %}
+				<p>No blocks of knowledge are available.</p>
+			{% endif %}
+    </body>
+</html>
