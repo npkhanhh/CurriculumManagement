@@ -9,5 +9,4 @@ class ProgramForm(ModelForm):
         fields = ['program_id', 'name', 'level', 'type', 'description']
 
 class UploadFileForm(forms.Form):
-    title = forms.CharField(max_length=50)
     file = forms.FileField()

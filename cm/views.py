@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
-from cm.forms import ProgramForm
+import cm.forms as f
 import cm.models as m
 import django.contrib.auth as au
+import cm.importer as im
 
 # Create your views here.
 
@@ -11,11 +12,11 @@ import django.contrib.auth as au
 
 def add_program(request):
     if request.method == 'GET':
-        form = ProgramForm()
+        form = f.ProgramForm()
     else:
         # A POST request: Handle Form Upload
         # Bind data from request.POST into a PostForm
-        form = ProgramForm(request.POST)
+        form = f.ProgramForm(request.POST)
         # If data is valid, proceeds to create a new post and redirect the user
         if form.is_valid():
             p_id = form.cleaned_data['program_id']
@@ -27,6 +28,19 @@ def add_program(request):
             return HttpResponseRedirect(reverse('program_detail', kwargs={'program_id': program.program_id}))
 
     return render(request, 'add_program.html', {
+        'form': form,
+    })
+
+def import_subject(request):
+    if request.method == 'GET':
+        form = f.UploadFileForm()
+    else:
+        form = f.UploadFileForm(request.POST, request.FILES)
+        # If data is valid, proceeds to create a new post and redirect the user
+        if form.is_valid():
+            im.importXlsData(request.FILES['file'])
+
+    return render(request, 'import_subject.html', {
         'form': form,
     })
 
