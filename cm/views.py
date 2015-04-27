@@ -107,3 +107,20 @@ def login(request):
             return HttpResponse("Invalid login details supplied.")
     else:
         return render(request, 'login.html', {})
+
+def subject_detail(request, subject_id):
+    if not request.user.is_authenticated():
+        return HttpResponse("You are logged in.")
+    subject = m.Subject.objects.get(subject_id=subject_id)
+    assessmentmethods = subject.assessmentmethod_set.all()
+    prerequisites = subject.prerequisites.all()
+    resources = subject.resource_set.all()
+    schedules = subject.teachingschedule_set.all()
+    goals = subject.subjectgoal_set.all()
+    context = {'subject': subject,
+    'assessmentmethods':assessmentmethods,
+    'prerequisites':prerequisites,
+    'resources':resources,
+    'goals':goals,
+    'schedules':schedules}
+    return render(request, 'subject_detail.html', context)

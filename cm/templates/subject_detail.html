@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <h1>Syllabus of {{subject.subject_id}}</h1>
+    </head>
+	<body>
+		Name (English): {{subject.name_en}} <br>
+		Name (Vietnames): {{subject.name_vi}} <br>
+		Description: {{subject.description}} <br>
+		Credit:{{subject.num_of_credit}} <br>
+		Regulation: {{ subject.regulation }} <br>
+		Theory Hours: {{subject.theory_hr}} <br>
+		Practice Hours: {{subject.practice_hr}} <br>
+		Self-study Hours: {{subject.self_study_hr}} <br>
+
+
+		Assessment Method: 
+		{% if assessmentmethods %}
+		{% else %} <p>No assessment methods applied</p>
+		{% endif %}
+
+		Resource:
+		{% if assessmentmethods %}
+			<ul>
+			{% for resource in assessmentmethods %}
+				<li>{{resource.resource_name}}</li>
+			{% endfor %}
+			</ul>
+		{% else %} <p>No resource available</p>
+		{% endif %}
+
+		Goals:
+		{% if goals %}
+			<ul>
+			{% for goal in goals %}
+				<li>{{goal.description}}</li>
+			{% endfor %}
+			</ul>
+		{% else %} <p>No goals set</p>
+		{% endif %}
+
+		Schedules:
+		{% if schedules %}
+			<ul>
+			{% for schedule in schedules %}
+				<li>{{schedule.week_no}} : {{schedule.title}}</li>
+			{% endfor %}
+			</ul>
+		{% else %} <p>No schedules set</p>
+		{% endif %}
+    </body>
+</html>
