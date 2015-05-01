@@ -38,10 +38,10 @@ class Subject(models.Model):
     num_of_credit = models.SmallIntegerField()
     theory_hr = models.SmallIntegerField()
     practice_hr = models.SmallIntegerField()
-    self_study_hr = models.SmallIntegerField()
+    self_study_hr = models.SmallIntegerField(null=True, blank=True)
     program_id = models.ForeignKey(Program, to_field='program_id')
-    description = models.TextField()
-    regulation = models.TextField()
+    description = models.TextField(null=True, blank=True)
+    regulation = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
         return self.name_en

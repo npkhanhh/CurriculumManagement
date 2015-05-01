@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.admin.views.decorators import staff_member_required
 from django.core.urlresolvers import reverse
 import cm.forms as f
 import cm.models as m
@@ -31,14 +32,16 @@ def add_program(request):
         'form': form,
     })
 
-def import_subject(request):
+@staff_member_required
+def import_subject(request, program_id):
     if request.method == 'GET':
         form = f.UploadFileForm()
     else:
         form = f.UploadFileForm(request.POST, request.FILES)
         # If data is valid, proceeds to create a new post and redirect the user
         if form.is_valid():
-            im.importXlsData(request.FILES['file'])
+            program = m.Program.objects.get(program_id=program_id)
+            im.importXlsData(request.FILES['file'].read(), program)
 
     return render(request, 'import_subject.html', {
         'form': form,
