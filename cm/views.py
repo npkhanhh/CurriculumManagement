@@ -41,8 +41,10 @@ def import_subject(request, program_id):
         # If data is valid, proceeds to create a new post and redirect the user
         if form.is_valid():
             program = m.Program.objects.get(program_id=program_id)
-            im.importXlsData(request.FILES['file'].read(), program)
-
+            message = im.importXlsData(request.FILES['file'].read(), program)
+            return render(request, 'import_subject.html', {
+            'form': form, 'message': message
+            })
     return render(request, 'import_subject.html', {
         'form': form,
     })
