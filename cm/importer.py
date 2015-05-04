@@ -18,8 +18,9 @@ def importXlsData(f, p):
             theory_hour = worksheet.cell_value(curr_row, 4)
             practice_hour = worksheet.cell_value(curr_row, 5)
             desc = worksheet.cell_value(curr_row, 6)
+            regulation = worksheet.cell_value(curr_row, 7)
             m.Subject.objects.create(subject_id=sid, name_en=name_en, name_vi=name_vi, num_of_credit=credit, theory_hr=theory_hour,
-                                               practice_hr=practice_hour, program_id=p, description=desc)
+                                               practice_hr=practice_hour, program_id=p, description=desc, regulation=regulation)
             curr_row+=1
     except Exception:
          transaction.rollback()
