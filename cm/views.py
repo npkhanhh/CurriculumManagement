@@ -61,7 +61,14 @@ def program_detail(request, program_id):
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('login'))
     program = m.Program.objects.get(program_id=program_id)
-    general_bok_list = m.BlockOfKnowledge.objects.filter(program_id=program_id, majors=None)
+
+    bok_list = m.BlockOfKnowledge.objects.filter(program_id=program_id, parentId=None)
+
+    general_bok_list = []
+    for i in range (len(bok_list)):
+        if bok_list[i].blockofknowledge_set.all():
+            general_bok_list.append(bok_list[i].blockofknowledge_set.all())
+
     general_bok_subjects = []
     for i in range (len(general_bok_list)):
         general_bok_subjects.append(general_bok_list[i].subjects.all())
@@ -77,7 +84,7 @@ def program_detail(request, program_id):
             temp.append(bok_list[j].subjects.all())
         major_bok_subject.append(temp)
     print(major_bok_subject)
-    context = {'program': program, 'major_list': major_list, 'general_bok_list': general_bok_list, 'general_bok_subjects': general_bok_subjects, 'major_bok_list': major_bok_list, 'major_bok_subject': major_bok_subject}
+    context = {'program': program, 'major_list': major_list, 'bok_list': bok_list, 'general_bok_list': general_bok_list, 'general_bok_subjects': general_bok_subjects, 'major_bok_list': major_bok_list, 'major_bok_subject': major_bok_subject}
     return render(request, 'program_detail.html', context)
 
 def major_detail(request, program_id, major_id):

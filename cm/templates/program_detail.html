@@ -10,110 +10,123 @@
 		Loại hình đào tạo: {{program.type}} <br>
 	
 		<h3>1. Mục tiêu đào tạo</h3>
-			{{program.goal}}
+			{{program.goal|linebreaks}}
 		<h3>2. Thời gian đào tạo: </h3> {{ program.num_of_year }} năm
 		<h3>3. Khối lượng kiến thức: </h3> {{ program.num_of_credit }} tín chỉ
-		<h3>4. Đối tượng tuyển sinh</h3>
+		<h3>4. Đối tượng tuyển sinh:</h3>
 			{{ program.candidates }}
-		<h3>5. Quy trình đào tạo</h3>
+		<h3>5. Quy trình đào tạo:</h3>
 			{{ program.description }}
-		<h3>6. Nội dung chương trình</h3>
-		<b>6.1 Kiến thức giáo dục đại cương</b>
-			{% if general_bok_list %}
-				<ul>
-					{% for bok in general_bok_list %}
-						<li>{{ bok.name }}</a></li>
-						{% with i=forloop.counter0 %}
-						{% with sub=general_bok_subjects|lookup:i %}
-						<table style="width:80%">
-						<tr>
-							<td>Mã số<td>
-							<td>Tên học phần<td>
-							<td>TC<td>
-							<td>LT<td>
-							<td>TH<td>
-						</tr>
-						{% for subject in sub %}
-						<tr>
-							<td>{{ subject.subject_id }}<td>
-							<td>{{ subject.name_vi }}<td>
-							<td>{{ subject.num_of_credit }}<td>
-							<td>{{ subject.theory_hr }}<td>
-							<td>{{ subject.practice_hr }}<td>
-						</tr>
-										
+		<h3>6. Nội dung chương trình:</h3>
+			{% if bok_list %}
+				{% for bok in bok_list %}
+				<b>{{bok.name}}</b>
+				{% endfor %}
+				{% if general_bok_list %}
+					<ul>
+						{% for bok in general_bok_list %}
+							<li>{{ bok.name }}</a></li>
+							{% with i=forloop.counter0 %}
+							{% with sub=general_bok_subjects|lookup:i %}
+							<table style="width:80%">
+							<col width="20%">
+							<col width="50%">
+							<col width="10%">
+							<col width="10%">
+							<col width="10%">
+							<tr>
+								<td>Mã số<td>
+								<td>Tên học phần<td>
+								<td>TC<td>
+								<td>LT<td>
+								<td>TH<td>
+							</tr>
+							{% for subject in sub %}
+							<tr>
+								<td><a href="/cm/subject/{{ subject.subject_id }}/">{{ subject.subject_id }}<td>
+								<td>{{ subject.name_vi }}<td>
+								<td>{{ subject.num_of_credit }}<td>
+								<td>{{ subject.theory_hr }}<td>
+								<td>{{ subject.practice_hr }}<td>
+							</tr>
+											
+							{% endfor %}
+							</table>
+							</br>
+							{% endwith %}
+							{% endwith %}
+							
 						{% endfor %}
-						</table>
-						</br>
-						{% endwith %}
-						{% endwith %}
-						
-					{% endfor %}
-				</ul>
-			{% endif %}
-		<b>6.2 Kiến thức ngành</b>
-			{% if major_list %}
-				<ul>
-					{% for major in major_list %}
-						<li><a href="/cm/{{ program.program_id }}/{{ major.id }}/">{{ major.name }}</a></li>
-						
-						{% with i=forloop.counter0 %}
-						{% with bok=major_bok_list|lookup:i %}
-						{% with list_subject=major_bok_subject|lookup:i %}
-						{% with sub1=list_subject.0 %}
-						{% with sub2=list_subject.1 %}
-						{{ bok.0.description }}
-						<table style="width:80%">
-						<tr>
-							<td>Mã số<td>
-							<td>Tên học phần<td>
-							<td>TC<td>
-							<td>LT<td>
-							<td>TH<td>
-						</tr>
-						{% for subject in sub1 %}
-						<tr>
-							<td>{{ subject.subject_id }}<td>
-							<td>{{ subject.name_vi }}<td>
-							<td>{{ subject.num_of_credit }}<td>
-							<td>{{ subject.theory_hr }}<td>
-							<td>{{ subject.practice_hr }}<td>
-						</tr>
-						
-						
+					</ul>
+				{% endif %}
+				{% if major_list %}
+					<ul>
+						{% for major in major_list %}
+							<li><a href="/cm/{{ program.program_id }}/{{ major.id }}/">{{ major.name }}</a></li>
+							
+							{% with i=forloop.counter0 %}
+							{% with bok=major_bok_list|lookup:i %}
+							{% with list_subject=major_bok_subject|lookup:i %}
+							{% with sub1=list_subject.0 %}
+							{% with sub2=list_subject.1 %}
+							{{ bok.0.description }}
+							<table style="width:80%">
+							<col width="20%">
+							<col width="50%">
+							<col width="10%">
+							<col width="10%">
+							<col width="10%">
+							<tr>
+								<td>Mã số<td>
+								<td>Tên học phần<td>
+								<td>TC<td>
+								<td>LT<td>
+								<td>TH<td>
+							</tr>
+							{% for subject in sub1 %}
+							<tr>
+								<td>{{ subject.subject_id }}<td>
+								<td>{{ subject.name_vi }}<td>
+								<td>{{ subject.num_of_credit }}<td>
+								<td>{{ subject.theory_hr }}<td>
+								<td>{{ subject.practice_hr }}<td>
+							</tr>
+							
+							
+							{% endfor %}
+							</table>
+							</br>
+							{{ bok.1.description }}
+							<table style="width:80%">
+							<tr>
+								<td>Mã số<td>
+								<td>Tên học phần<td>
+								<td>TC<td>
+								<td>LT<td>
+								<td>TH<td>
+							</tr>
+							{% for subject in sub2 %}
+							<tr>
+								<td>{{ subject.subject_id }}<td>
+								<td>{{ subject.name_vi }}<td>
+								<td>{{ subject.num_of_credit }}<td>
+								<td>{{ subject.theory_hr }}<td>
+								<td>{{ subject.practice_hr }}<td>
+							</tr>			
+							{% endfor %}
+							</table>
+							</br>
+							{% endwith %}
+							{% endwith %}
+							{% endwith %}
+							{% endwith %}
+							{% endwith %}
+							
 						{% endfor %}
-						</table>
-						</br>
-						{{ bok.1.description }}
-						<table style="width:80%">
-						<tr>
-							<td>Mã số<td>
-							<td>Tên học phần<td>
-							<td>TC<td>
-							<td>LT<td>
-							<td>TH<td>
-						</tr>
-						{% for subject in sub2 %}
-						<tr>
-							<td>{{ subject.subject_id }}<td>
-							<td>{{ subject.name_vi }}<td>
-							<td>{{ subject.num_of_credit }}<td>
-							<td>{{ subject.theory_hr }}<td>
-							<td>{{ subject.practice_hr }}<td>
-						</tr>			
-						{% endfor %}
-						</table>
-						</br>
-						{% endwith %}
-						{% endwith %}
-						{% endwith %}
-						{% endwith %}
-						{% endwith %}
-						
-					{% endfor %}
-				</ul>
-			{% else %}
-				<p>No majors are available.</p>
+					</ul>
+				{% else %}
+					<p>No majors are available.</p>
+				{% endif %}
 			{% endif %}
 		<h3>7. Điều kiện tốt nghiệp</h3>
 			{{ program.graduation_requirement }}

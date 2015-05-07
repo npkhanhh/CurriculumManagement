@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AssessmentMethod',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('evidence_assessment', models.TextField()),
                 ('criteria', models.TextField()),
                 ('level', models.TextField()),
@@ -27,9 +27,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BlockOfKnowledge',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('name', models.CharField(max_length=200)),
-                ('description', models.TextField()),
+                ('description', models.TextField(null=True, blank=True)),
                 ('num_of_credit', models.SmallIntegerField()),
             ],
             options={
@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Goal',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('type', models.CharField(max_length=100)),
                 ('description', models.TextField()),
             ],
@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='LearningOutcome',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
                 ('description', models.TextField()),
             ],
@@ -61,7 +61,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='LearningOutcomeCategory',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('name', models.CharField(max_length=200)),
             ],
             options={
@@ -71,7 +71,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='LearningOutcomeHeader',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('name', models.CharField(max_length=200)),
                 ('lo_category', models.ForeignKey(to='cm.LearningOutcomeCategory')),
             ],
@@ -82,7 +82,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Major',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('name', models.CharField(max_length=200)),
                 ('description', models.TextField()),
             ],
@@ -93,7 +93,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PrerequisitesSubject',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
             ],
             options={
             },
@@ -102,17 +102,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Program',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('program_id', models.CharField(unique=True, max_length=10)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('program_id', models.CharField(max_length=10, unique=True)),
                 ('name', models.CharField(max_length=200)),
                 ('level', models.CharField(max_length=50)),
                 ('type', models.CharField(max_length=100)),
-                ('goal', models.TextField(default=b'')),
+                ('goal', models.TextField(default='')),
                 ('num_of_year', models.IntegerField()),
                 ('num_of_credit', models.IntegerField()),
-                ('candidates', models.TextField(default=b'')),
-                ('description', models.TextField(default=b'')),
-                ('graduation_requirement', models.TextField(default=b'')),
+                ('candidates', models.TextField(default='')),
+                ('description', models.TextField(default='')),
+                ('graduation_requirement', models.TextField(default='')),
             ],
             options={
             },
@@ -121,7 +121,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Resource',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('resource_name', models.CharField(max_length=200)),
                 ('type', models.IntegerField(max_length=200)),
             ],
@@ -132,16 +132,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Subject',
             fields=[
-                ('subject_id', models.CharField(max_length=20, serialize=False, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('subject_id', models.CharField(max_length=20, unique=True)),
                 ('name_en', models.CharField(max_length=200)),
                 ('name_vi', models.CharField(max_length=200)),
                 ('num_of_credit', models.SmallIntegerField()),
                 ('theory_hr', models.SmallIntegerField()),
                 ('practice_hr', models.SmallIntegerField()),
-                ('self_study_hr', models.SmallIntegerField()),
-                ('description', models.TextField()),
-                ('regulation', models.TextField()),
-                ('program_id', models.ForeignKey(to='cm.Program', to_field=b'program_id')),
+                ('self_study_hr', models.SmallIntegerField(null=True, blank=True)),
+                ('description', models.TextField(null=True, blank=True)),
+                ('regulation', models.TextField(null=True, blank=True)),
+                ('program_id', models.ForeignKey(to_field='program_id', to='cm.Program')),
             ],
             options={
             },
@@ -150,7 +151,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SubjectGoal',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('goal', models.ForeignKey(to='cm.Goal')),
                 ('subject', models.ForeignKey(to='cm.Subject')),
             ],
@@ -161,7 +162,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SubjectLo',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('description', models.TextField()),
                 ('level', models.CharField(max_length=100)),
                 ('subject_goal', models.ForeignKey(to='cm.SubjectGoal')),
@@ -173,7 +174,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TeachingMethod',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('description', models.TextField()),
                 ('status', models.SmallIntegerField()),
             ],
@@ -184,7 +185,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TeachingSchedule',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('week_no', models.IntegerField()),
                 ('title', models.TextField()),
                 ('subject', models.ForeignKey(to='cm.Subject')),
@@ -200,22 +201,26 @@ class Migration(migrations.Migration):
             field=models.ManyToManyField(to='cm.TeachingSchedule'),
             preserve_default=True,
         ),
+        migrations.AlterUniqueTogether(
+            name='subject',
+            unique_together=set([('subject_id', 'program_id')]),
+        ),
         migrations.AddField(
             model_name='resource',
             name='subject_id',
-            field=models.ForeignKey(to='cm.Subject'),
+            field=models.ForeignKey(to_field='subject_id', to='cm.Subject'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='prerequisitessubject',
             name='prerequisites_subject',
-            field=models.ForeignKey(related_name='prerequisites', to='cm.Subject'),
+            field=models.ForeignKey(to='cm.Subject', to_field='subject_id', related_name='prerequisites'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='prerequisitessubject',
             name='subject_id',
-            field=models.ForeignKey(related_name='subject', to='cm.Subject'),
+            field=models.ForeignKey(to='cm.Subject', to_field='subject_id', related_name='subject'),
             preserve_default=True,
         ),
         migrations.AlterUniqueTogether(
@@ -225,13 +230,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='major',
             name='program_id',
-            field=models.ForeignKey(to='cm.Program', to_field=b'program_id'),
+            field=models.ForeignKey(to_field='program_id', to='cm.Program'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='learningoutcomecategory',
             name='program_id',
-            field=models.ForeignKey(to='cm.Program', to_field=b'program_id'),
+            field=models.ForeignKey(to_field='program_id', to='cm.Program'),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -249,13 +254,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='blockofknowledge',
             name='majors',
-            field=models.ManyToManyField(to='cm.Major'),
+            field=models.ManyToManyField(null=True, blank=True, to='cm.Major'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='blockofknowledge',
             name='program_id',
-            field=models.ForeignKey(to='cm.Program', to_field=b'program_id'),
+            field=models.ForeignKey(to_field='program_id', to='cm.Program'),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -267,7 +272,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='assessmentmethod',
             name='subject_id',
-            field=models.ForeignKey(to='cm.Subject'),
+            field=models.ForeignKey(to_field='subject_id', to='cm.Subject'),
             preserve_default=True,
         ),
     ]
