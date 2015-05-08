@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.urlresolvers import reverse
+from django.utils.encoding import smart_str
 import cm.forms as f
 import cm.models as m
 import django.contrib.auth as au
@@ -62,12 +63,13 @@ def program_detail(request, program_id):
         return HttpResponseRedirect(reverse('login'))
     program = m.Program.objects.get(program_id=program_id)
 
-    bok_list = m.BlockOfKnowledge.objects.filter(program_id=program_id, parentId=None)
+    bok = m.BlockOfKnowledge.objects.filter(program_id=program_id, parentId=None)
+    bok_list = list(bok)
 
     general_bok_list = []
     for i in range (len(bok_list)):
         if bok_list[i].blockofknowledge_set.all():
-            general_bok_list.append(bok_list[i].blockofknowledge_set.all())
+            general_bok_list+=(list(bok_list[i].blockofknowledge_set.all()))
 
     general_bok_subjects = []
     for i in range (len(general_bok_list)):
@@ -83,7 +85,6 @@ def program_detail(request, program_id):
         for j in range(len(bok_list)):
             temp.append(bok_list[j].subjects.all())
         major_bok_subject.append(temp)
-    print(major_bok_subject)
     context = {'program': program, 'major_list': major_list, 'bok_list': bok_list, 'general_bok_list': general_bok_list, 'general_bok_subjects': general_bok_subjects, 'major_bok_list': major_bok_list, 'major_bok_subject': major_bok_subject}
     return render(request, 'program_detail.html', context)
 

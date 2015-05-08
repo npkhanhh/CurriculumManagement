@@ -1,4 +1,5 @@
 from django.db import models
+
 from django.utils.encoding import python_2_unicode_compatible
 
 
@@ -45,8 +46,8 @@ class Major(models.Model):
 @python_2_unicode_compatible
 class Subject(models.Model):
     subject_id = models.CharField(max_length=20)
-    name_en = models.CharField(max_length=200)
-    name_vi = models.CharField(max_length=200)
+    name_en = models.CharField(max_length=200, null=True, blank=True)
+    name_vi = models.CharField(max_length=200, null=True, blank=True)
     num_of_credit = models.SmallIntegerField()
     theory_hr = models.SmallIntegerField()
     practice_hr = models.SmallIntegerField()
